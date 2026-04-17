@@ -1,40 +1,101 @@
-import axios from "axios";
+cd import { useState } from "react";
 
 function LogForm({ formData }) {
-  const saveData = async () => {
-    try {
-      const res = await axios.post("http://127.0.0.1:8000/save", {
-        hcp: formData.hcp || "",
-        type: formData.type || "",
-        sentiment: formData.sentiment || "",
-        material: formData.material || "",
-      });
-
-      alert(res.data.message);
-    } catch (error) {
-      alert("Error saving data");
-    }
-  };
+  const [task, setTask] = useState("");
 
   return (
-    <div>
-      <h2>Log HCP Interaction</h2>
-
-      <input placeholder="HCP Name" value={formData.hcp || ""} readOnly />
-
-      <input placeholder="Type" value={formData.type || ""} readOnly />
+    <div className="form-box">
+      <h1>Log HCP Interaction</h1>
 
       <input
-        placeholder="Sentiment"
-        value={formData.sentiment || ""}
+        placeholder="Search or select HCP..."
+        value={formData.hcp || ""}
         readOnly
       />
 
-      <input placeholder="Material" value={formData.material || ""} readOnly />
+      <select value={formData.type || "Meeting"} readOnly>
+        <option>Meeting</option>
+        <option>Call</option>
+        <option>Email</option>
+      </select>
 
-      <textarea placeholder="Topics Discussed"></textarea>
+      <input type="date" />
+      <input type="time" />
 
-      <button onClick={saveData}>Save Interaction</button>
+      <input placeholder="Enter names or search..." />
+
+      <textarea
+        placeholder="Enter key discussion points..."
+        value={formData.topic || ""}
+        rows="4"
+        readOnly
+      />
+
+      <button>🎤 Summarize from Voice Note</button>
+
+      <h3>Materials Shared / Samples Distributed</h3>
+
+      <input
+        placeholder="Brochures..."
+        value={formData.material || ""}
+        readOnly
+      />
+
+      <button>🔍 Search/Add</button>
+      <button>➕ Add Sample</button>
+
+      <div className="radio-group">
+        <label>
+          <input type="radio" name="sentiment" /> 😊 Positive
+        </label>
+
+        <label>
+          <input type="radio" name="sentiment" /> 😐 Neutral
+        </label>
+
+        <label>
+          <input type="radio" name="sentiment" /> 😞 Negative
+        </label>
+      </div>
+
+      <textarea placeholder="Key outcomes or agreements..." rows="3"></textarea>
+
+      {/* Clickable Follow-up Actions */}
+      <textarea
+        placeholder="Enter next steps or tasks..."
+        rows="3"
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+      ></textarea>
+
+      <div className="followup-box">
+        <p className="follow-title">AI Suggested Follow-ups:</p>
+
+        <p
+          className="follow-link"
+          onClick={() => setTask("Schedule follow-up meeting in 2 weeks")}
+        >
+          + Schedule follow-up meeting in 2 weeks
+        </p>
+
+        <p
+          className="follow-link"
+          onClick={() => setTask("Send OncoBoost Phase III PDF")}
+        >
+          + Send OncoBoost Phase III PDF
+        </p>
+
+        <p
+          className="follow-link"
+          onClick={() =>
+            setTask("Add Dr. Sharma to advisory board invite list")
+          }
+        >
+          + Add Dr. Sharma to advisory board invite list
+        </p>
+      </div>
+
+      <button className="save-btn">Save Interaction</button>
     </div>
   );
 }

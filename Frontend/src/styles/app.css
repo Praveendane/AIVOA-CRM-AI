@@ -96,3 +96,20 @@ button {
   margin: 12px 0;
   flex-wrap: wrap;
 }
+
+.followup-box {
+  margin-top: 12px;
+}
+
+.follow-title {
+  font-size: 13px;
+  color: #555;
+  margin-bottom: 5px;
+}
+
+.follow-link {
+  color: #2563eb;
+  font-size: 13px;
+  margin: 3px 0;
+  cursor: pointer;
+}
